@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IssueByReader</title>
+</head>
+<body>
+<h1 th:text="'Name reader: ' + ${reader.getName()}"></h1>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+    </tr>
+    <tr>
+        <td th:text="${reader.getId()}"></td>
+        <td th:text="${reader.getName()}"></td><br/>
+    </tr>
+    <tr>_________________________________</tr>
+    <tr th:if="${reader.getIssueList().size() == 0}">
+        <h1>Этот читатель не брал книг!</h1>"
+    </tr>
+
+    <h1 th:if="${reader.getIssueList().size() > 0}">Список выдачи книг этому читателю:</h1><br/>
+
+    <tr th:if="${reader.getIssueList().size() > 0}">
+        <td>ID</td>
+        <td>Book id</td>
+        <td>Reader id</td>
+        <td>Issue_at</td>
+        <td>Returned_at</td>
+    </tr>
+
+    <tr th:each="issue:${reader.getIssueList()}">
+        <td th:text="${issue.getId()}"></td>
+        <td th:text="${issue.getBookId()}"></td>
+        <td th:text="${issue.getReaderId()}"></td>
+        <td th:text="${issue.getIssued_at()}"></td>
+        <td th:text="${issue.getReturned_at()}"></td>
+    </tr>
+
+</table>
+</body>
+</html>

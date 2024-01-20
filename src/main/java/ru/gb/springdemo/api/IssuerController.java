@@ -10,6 +10,7 @@ import ru.gb.springdemo.service.IssuerService;
 import ru.gb.springdemo.util.NotIssueException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -24,6 +25,11 @@ public class IssuerController {
 //  public void returnBook(long issueId) {
 //    // найти в репозитории выдачу и проставить ей returned_at
 //  }
+
+    @GetMapping
+    public List<Issue> getIssues() {
+        return service.getIssueList();
+    }
 
     @PostMapping
     public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest request) {
