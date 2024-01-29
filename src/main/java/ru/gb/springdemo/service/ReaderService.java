@@ -11,32 +11,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReaderService {
 
-  // спринг это все заинжектит
-//  private final BookRepository bookRepository;
-  private final ReaderRepository readerRepository;
-//  private final IssueRepository issueRepository;
+    // спринг это все заинжектит
+    private final ReaderRepository readerRepository;
 
-  public Reader save(Reader reader) {
-    if (reader == null){
-      throw new IllegalArgumentException("reader must not be null");
+    public Reader save(Reader reader) {
+        if (reader == null) {
+            throw new IllegalArgumentException("reader must not be null");
+        }
+        if (readerRepository.findById(reader.getId()).isPresent()) {
+            throw new RuntimeException("This reader already exist");
+        }
+        return readerRepository.save(reader);
     }
-    if (readerRepository.getReaderById(reader.getId()) != null) {
-      throw new RuntimeException("This reader already exist");
+
+    public Reader getReaderById(long id) {
+        return readerRepository.findById(id).orElseThrow(RuntimeException::new);
     }
-    readerRepository.saveReader(reader);
-    return reader;
-  }
 
-  public Reader getReaderById(long id) {
-    return readerRepository.getReaderById(id);
-  }
+    public Reader deleteReader(long id) {
+        Reader reader = getReaderById(id);
+        readerRepository.deleteById(id);
+        return reader;
+    }
 
-  public Reader deleteReader(long id) {
-    return readerRepository.deleteById(id);
-  }
-
-  public List<Reader> getReaders() {
-    return readerRepository.getReaders();
-  }
+    public List<Reader> getReaders() {
+        return readerRepository.findAll();
+    }
 
 }

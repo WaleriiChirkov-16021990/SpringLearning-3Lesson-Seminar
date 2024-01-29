@@ -18,24 +18,28 @@ public class BookService {
 
   // спринг это все заинжектит
   private final BookRepository bookRepository;
-//  private final ReaderRepository readerRepository;
-//  private final IssueRepository issueRepository;
 
   public Book save(Book book) {
-    bookRepository.saveBook(book);
+    bookRepository.saveAndFlush(book);
     return book;
   }
 
-  public Book getBookById(long id) {
-    return bookRepository.getBookById(id);
+  public Book getBookById(Long id) {
+    return bookRepository.findById(id).orElseThrow(RuntimeException::new);
   }
 
-  public Book deleteBookById(long id) {
-    return bookRepository.deleteBookById(id);
+  public Book deleteBookById(Long id) {
+    Book book = getBookById(id);
+     bookRepository.deleteById(id);
+     return book;
   }
 
   public List<Book> getBookList() {
-    return bookRepository.getBookList();
+    try {
+      return bookRepository.findAll();
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
   }
 
 }

@@ -9,7 +9,6 @@ import ru.gb.springdemo.model.Issue;
 import ru.gb.springdemo.service.IssuerService;
 import ru.gb.springdemo.util.NotIssueException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -49,7 +48,7 @@ public class IssuerController {
         try {
             issue = service.deleteIssue(id);
             Issue newIssue = service.put_data(issue);
-            service.saveIssue(newIssue);
+            service.save(newIssue);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
