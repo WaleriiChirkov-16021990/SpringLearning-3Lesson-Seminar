@@ -11,6 +11,7 @@ import ru.gb.springdemo.util.BadRequestException;
 import ru.gb.springdemo.util.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -68,6 +69,9 @@ public class PersonService {
         return personRepository.findByNameIgnoreCase(name).orElseThrow(NotFoundException::new);
     }
 
+    public Optional<Person> findPersonByName(String name) throws NotFoundException {
+        return personRepository.findByNameIgnoreCase(name);
+    }
     public List<Person> findByRole(Role role) {
         return personRepository.findByRole(role).orElseThrow(NotFoundException::new);
     }

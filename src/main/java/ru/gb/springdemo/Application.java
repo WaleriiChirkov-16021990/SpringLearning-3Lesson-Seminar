@@ -6,7 +6,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.WebProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.repository.PersonRepository;
 
 @SpringBootApplication
@@ -16,7 +18,7 @@ public class Application {
 
 	/*
 	 * План занятия:
-     -- 0. Анонс группы в телеграме
+     -- 0. Анонс группы в телеграмме
      -- 1. Поговорить про стандартную структуру пакетов и "слои" в spring-web приложениях
      2. Поговорить про swagger и его подключение к приложению
      -- 3. Поговорить про REST-соглашения путей
@@ -60,7 +62,13 @@ public class Application {
 	 */
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ApplicationContext application = SpringApplication.run(Application.class, args);
+
+        PersonRepository repository = application.getBean(PersonRepository.class);
+        Person person = new Person();
+        person.setName("John");
+        person.setPassword("password");
+        repository.save(person);
     }
 
     @Bean

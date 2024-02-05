@@ -13,37 +13,15 @@
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
-    <label for="lastName">Введите ваш lastname</label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Lastname errors</div>
-    <br/>
-    <label for="yearOfBirth">Введите ваш year of birth</label>
-    <input type="number" th:field="*{yearOfBirth}" id="yearOfBirth"/>
-    <div style="color: red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth errors</div>
-    <br/>
-    <label for="phoneNumber">Введите ваш phone number</label>
-    <input type="text" th:field="*{phoneNumber}" id="phoneNumber"/>
-    <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Errors phoneNumber</div>
-    <br/>
-    <label for="email">Введите ваш email</label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Errors email</div>
-    <br/>
-    <label for="username">Введите ваш username</label>
-    <input type="text" th:field="*{username}" id="username"/>
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Errors username</div>
-    <br/>
     <label for="password">Введите ваш passsword</label>
     <input type="password" th:field="*{password}" id="password"/>
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Errors password</div>
     <br/>
     <input type="submit" value="Sign up!"
            style="display: flex; justify-content: space-around; background-color: blueviolet"/>
-        <div th:if="${param.error}" style="color: red">
-            неправильные имя или пароль
-        </div>
-
-
+    <div th:if="${param.error}" style="color: red">
+        неправильные имя или пароль
+    </div>
 </form>
 </body>
 </html>

@@ -1,14 +1,20 @@
 package ru.gb.springdemo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.gb.springdemo.config.SecurityConfig;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.PersonsRoles;
 import ru.gb.springdemo.service.PersonDetailService;
@@ -60,4 +66,16 @@ public class AuthProviderImp implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return true;
     }
+
+    @Autowired
+    public void configureAuthManagerBuilder(AuthenticationManagerBuilder builder, PersonDetailService personDetailService) throws Exception {
+        builder.userDetailsService(personDetailService)
+                .passwordEncoder(SecurityConfig.getPasswordEncoder());
+    }
+//
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
 }

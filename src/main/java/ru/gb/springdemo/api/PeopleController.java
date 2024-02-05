@@ -3,6 +3,9 @@ package ru.gb.springdemo.api;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.PersonDto;
@@ -28,39 +31,41 @@ public class PeopleController {
     }
 
     @GetMapping
-    public List<PersonDto> findAll() {
-        return personService.findAll().stream().map((element) ->
-                mapper.map(element, PersonDto.class)).collect(Collectors.toList());
+    public ResponseEntity<List<PersonDto>> findAll() {
+        return new ResponseEntity<>(personService.findAll().stream().map((element) ->
+                mapper.map(element, PersonDto.class)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public PersonDto findById(UUID id) {
-        return mapper.map(personService.findOne(id), PersonDto.class);
+    public ResponseEntity<PersonDto> findById(UUID id) {
+        return new ResponseEntity<>(mapper.map(personService.findOne(id), PersonDto.class), HttpStatus.OK);
     }
 
     @PostMapping
-    public PersonDto savePerson(Person person) {
-        return mapper.map(personService.savePerson(person), PersonDto.class);
+    public ResponseEntity<PersonDto> savePerson(@RequestBody @Valid Person person) {
+        return new ResponseEntity<>(mapper.map(personService.savePerson(person), PersonDto.class), HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public void deletePerson(UUID id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<HttpStatus> deletePerson(@PathVariable("id") UUID id) {
         personService.deletePerson(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")
-    public void updatePerson(@PathVariable("id") UUID id, @RequestBody @Valid Person person) {
+    public ResponseEntity<HttpStatus> updatePerson(@PathVariable("id") UUID id, @RequestBody @Valid Person person) {
         personService.updatePerson(id, person);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")
-    public PersonDto findByName(@PathVariable("name") String name) {
-        return mapper.map(personService.findByName(name), PersonDto.class);
+    public ResponseEntity<PersonDto> findByName(@PathVariable("name") String name) {
+        return new ResponseEntity<>(mapper.map(personService.findByName(name), PersonDto.class), HttpStatus.OK);
     }
 
     @GetMapping("/role/{id}")
-    public List<PersonDto> findByRole(@PathVariable("id") UUID id) {
-        return personService.findByRole(roleService.findById(id)).stream().map((element) ->
-                mapper.map(element, PersonDto.class)).collect(Collectors.toList());
+    public ResponseEntity<List<PersonDto>> findByRole(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(personService.findByRole(roleService.findById(id)).stream().map((element) ->
+                mapper.map(element, PersonDto.class)).collect(Collectors.toList()), HttpStatus.OK);
     }
 }

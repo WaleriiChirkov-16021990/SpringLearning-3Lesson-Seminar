@@ -10,7 +10,6 @@ import java.util.UUID;
  */
 @Value
 public class PersonDto implements Serializable {
-    UUID id;
     String name;
-    RoleDto role;
+//    RoleDto role;
 }
