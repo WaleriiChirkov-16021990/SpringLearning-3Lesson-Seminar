@@ -1,12 +1,18 @@
 package ru.gb.springdemo;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.WebProperties;
+import org.springframework.context.annotation.Bean;
+import ru.gb.springdemo.repository.PersonRepository;
 
 @SpringBootApplication
 public class Application {
 
-	// http://localhost:8080/swagger-ui.html
+    // http://localhost:8080/swagger-ui.html
 
 	/*
 	 * План занятия:
@@ -53,8 +59,12 @@ public class Application {
 			spring-web.jar
 	 */
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
+    @Bean
+    public static @NotNull ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
