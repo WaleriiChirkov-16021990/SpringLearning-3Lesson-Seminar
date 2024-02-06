@@ -9,7 +9,13 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import ru.gb.springdemo.model.Person;
+import ru.gb.springdemo.model.Role;
 import ru.gb.springdemo.repository.PersonRepository;
+import ru.gb.springdemo.repository.RoleRepository;
+import ru.gb.springdemo.service.PersonService;
+
+import java.util.List;
+import java.util.UUID;
 
 @SpringBootApplication
 public class Application {
@@ -62,13 +68,28 @@ public class Application {
 	 */
 
     public static void main(String[] args) {
+//        SpringApplication.run(Application.class, args);
         ApplicationContext application = SpringApplication.run(Application.class, args);
 
         PersonRepository repository = application.getBean(PersonRepository.class);
+        RoleRepository role = application.getBean(RoleRepository.class);
+        PersonService personService = application.getBean(PersonService.class);
+
+        Role admin = new Role();
+        admin.setName("admin");
+        admin.setUuid(UUID.randomUUID());
+        role.save(admin);
+        Role user = new Role();
+        user.setUuid(UUID.randomUUID());
+        user.setName("user");
+        role.save(user);
+
         Person person = new Person();
         person.setName("John");
         person.setPassword("password");
-        repository.save(person);
+        person.setRole(List.of(admin));
+        personService.savePerson(person);
+        repository.flush();
     }
 
     @Bean

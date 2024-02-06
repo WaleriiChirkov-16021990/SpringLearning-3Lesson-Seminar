@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.Future;
 @Repository
-//public interface PersonRepository extends JpaRepository<Person, UUID> {
-public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecificationExecutor<Person> {
+public interface PersonRepository extends JpaRepository<Person, UUID> {
+//public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecificationExecutor<Person> {
 
     Optional<List<Person>> findByRole(Role role);
 

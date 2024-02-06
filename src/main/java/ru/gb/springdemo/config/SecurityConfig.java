@@ -1,20 +1,37 @@
 package ru.gb.springdemo.config;
 
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import ru.gb.springdemo.service.PersonDetailService;
 
+import java.util.Objects;
+
+//@Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 //    private final PersonDetailService personDetailService;
 
@@ -45,30 +62,68 @@ public class SecurityConfig {
 //    }
 //
 
+
+
+    //    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//
+////                .httpBasic(Customizer.withDefaults())
+////                .csrf(csrfToken -> csrfToken.disable())
+////                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+////                                authorizationManagerRequestMatcherRegistry
+////                                        .requestMatchers("/public", "/api/**").permitAll()
+//////                                .requestMatchers("/public","/api/**").permitAll()
+////                                        .requestMatchers("/issues/**").hasAuthority("ISSUE")
+////                                        .requestMatchers("/readers/**").hasAuthority("READER")
+////                                        .requestMatchers("/books/**").hasAuthority("BOOK")
+//////                                .requestMatchers("/api/**").authenticated()
+//////                                        .anyRequest().denyAll()
+////                )
+//                .formLogin(formLogin -> formLogin
+//                        .loginPage("/auth/login")
+//                        .loginProcessingUrl("/process_login")
+//                        .defaultSuccessUrl("/auth/people", true)
+//                        .failureUrl("/auth/login?error"))
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/auth/login"))
+//                .build();
+//    }
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-//                .csrf(csrfToken -> csrfToken.disable())
-//                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-//                                authorizationManagerRequestMatcherRegistry
-//                                        .requestMatchers("/public", "/api/**").permitAll()
-////                                .requestMatchers("/public","/api/**").permitAll()
-//                                        .requestMatchers("/issues/**").hasAuthority("ISSUE")
-//                                        .requestMatchers("/readers/**").hasAuthority("READER")
-//                                        .requestMatchers("/books/**").hasAuthority("BOOK")
-////                                .requestMatchers("/api/**").authenticated()
-////                                        .anyRequest().denyAll()
-//                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/auth/login")
-                        .loginProcessingUrl("/process_login")
-                        .defaultSuccessUrl("/auth/people", true)
-                        .failureUrl("/auth/login?error"))
+    public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/**", "/auth/**").permitAll()
+                        .requestMatchers("/issues/**").hasAuthority("ISSUE")
+                        .requestMatchers("/books/**").hasAuthority("BOOK")
+                        .requestMatchers("/readers/**").hasAuthority("READER")
+                        .anyRequest()
+                        .authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(formLogin -> formLogin.loginPage("/auth/login")
+                        .loginProcessingUrl("/perform_login")
+                        .defaultSuccessUrl("/homepage.html", true)
+                        .failureUrl("/login.html?error=true")
+                        .failureHandler(authenticationFailureHandler())
+                )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/auth/login"))
+                        .logoutUrl("/perform_logout")
+                        .logoutSuccessHandler(logoutSuccessHandler())
+                )
                 .build();
     }
+
+    private AuthenticationFailureHandler authenticationFailureHandler() {
+        return null;
+    }
+
+    private LogoutSuccessHandler logoutSuccessHandler() {
+        return null;
+    }
+
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {

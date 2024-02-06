@@ -1,9 +1,11 @@
 package ru.gb.springdemo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gb.springdemo.config.SecurityConfig;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.Role;
 import ru.gb.springdemo.repository.PersonRepository;
@@ -29,12 +31,21 @@ public class PersonService {
     @Transactional
     public Person savePerson(Person person) throws BadRequestException {
         try {
+            enrichPerson(person);
             personRepository.save(person);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage(), e);
         }
 
         return person;
+    }
+
+    private void enrichPerson(Person person) {
+        if (person.getId() == null) {
+            person.setId(UUID.randomUUID());
+        }
+        person.setPassword(SecurityConfig.getPasswordEncoder().encode(person.getPassword()));
+        System.out.println(person.getPassword());
     }
 
     @Transactional

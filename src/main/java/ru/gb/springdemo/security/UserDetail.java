@@ -2,6 +2,7 @@ package ru.gb.springdemo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.service.PersonRoleService;
@@ -22,7 +23,7 @@ public class UserDetail implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return user.getRole().stream().map(r -> new SimpleGrantedAuthority(r.getName())).toList();
     }
 
     /**

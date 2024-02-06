@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface PersonsRolesRepository extends JpaRepository<PersonsRoles, UUID> {
+public interface PersonsRolesRepository extends JpaRepository<PersonsRoles, Long> {
 
     Optional<List<PersonsRoles>> findAllByPersonId(Person personId);
     Optional<List<PersonsRoles>> findAllByRoleId(Role roleId);

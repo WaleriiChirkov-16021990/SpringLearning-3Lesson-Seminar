@@ -1,5 +1,6 @@
 package ru.gb.springdemo.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,7 @@ import ru.gb.springdemo.service.PersonService;
 import java.util.List;
 
 @Component
+@Slf4j
 public class AuthProviderImp implements AuthenticationProvider {
 
     private final PersonDetailService personDetailsService;
@@ -48,7 +50,7 @@ public class AuthProviderImp implements AuthenticationProvider {
         UserDetails personDetails = personDetailsService.loadUserByUsername(username);
         Person person = personService.findByName(username);
         String password = authentication.getCredentials().toString();
-
+        log.info(personDetails.getPassword());
         if (!password.equals(personDetails.getPassword())) {
             throw new BadCredentialsException("incorrect password");
         }

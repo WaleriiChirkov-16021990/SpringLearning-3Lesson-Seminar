@@ -41,7 +41,7 @@ public class PersonRoleController {
     }
 
     @GetMapping(value = "/{id}")
-    public PersonsRolesDto findById(@PathVariable("id") UUID id) {
+    public PersonsRolesDto findById(@PathVariable("id") Long id) {
         return mapper.map(personRoleService.findById(id), PersonsRolesDto.class);
     }
 
@@ -60,7 +60,7 @@ public class PersonRoleController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") UUID id) {
+    public void delete(@PathVariable("id") Long id) {
         personRoleService.deletePersonRole(id);
     }
 
@@ -71,7 +71,7 @@ public class PersonRoleController {
     }
 
     @PutMapping("/edit/{id}")
-    public PersonsRolesDto update(@PathVariable("id") UUID id, @RequestBody @Valid PersonsRolesDto personsRolesDto) {
+    public PersonsRolesDto update(@PathVariable("id") Long id, @RequestBody @Valid PersonsRolesDto personsRolesDto) {
         personRoleService.updatePersonRole(id, mapper.map(personsRolesDto, PersonsRoles.class));
         return personsRolesDto;
     }

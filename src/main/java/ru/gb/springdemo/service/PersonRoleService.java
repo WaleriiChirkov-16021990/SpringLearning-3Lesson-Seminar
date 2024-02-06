@@ -37,7 +37,7 @@ public class PersonRoleService {
     }
 
     @Transactional
-    public void deletePersonRole(UUID uuid) throws BadRequestException {
+    public void deletePersonRole(Long uuid) throws BadRequestException {
         try {
             personsRolesRepository.deleteById(uuid);
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class PersonRoleService {
     }
 
     @Transactional
-    public void updatePersonRole(UUID id, PersonsRoles personsRoles) throws BadRequestException {
+    public void updatePersonRole(Long id, PersonsRoles personsRoles) throws BadRequestException {
         try {
             personsRoles.setId(id);
             this.personsRolesRepository.save(personsRoles);
@@ -59,7 +59,7 @@ public class PersonRoleService {
         return personsRolesRepository.findAll().stream().toList();
     }
 
-    public PersonsRoles findById(UUID id) {
+    public PersonsRoles findById(Long id) {
         return personsRolesRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 

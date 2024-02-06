@@ -10,8 +10,8 @@ import java.util.UUID;
 @Data
 public class PersonsRoles {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
