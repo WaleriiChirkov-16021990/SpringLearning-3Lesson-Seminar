@@ -78,6 +78,7 @@ public class Application {
         issue.setName("ISSUE");
         issue.setUuid(UUID.randomUUID());
         role.save(issue);
+
         Role book = new Role();
         book.setUuid(UUID.randomUUID());
         book.setName("BOOK");

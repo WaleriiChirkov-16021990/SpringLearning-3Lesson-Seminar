@@ -95,10 +95,10 @@ public class SecurityConfig {
         return http
 //            .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers( "/auth/**", "/api/**").permitAll()
-                        .requestMatchers("/issues/**").hasAnyAuthority("ISSUE")
-                        .requestMatchers("/books/**").hasAnyAuthority("BOOK")
-                        .requestMatchers("/readers/**").hasAnyAuthority("READER")
+//                        .requestMatchers( "/auth/**", "/api/**").permitAll()
+                        .requestMatchers("/issues").hasAuthority("ISSUE")
+                        .requestMatchers("/books").hasAuthority("BOOK")
+                        .requestMatchers("/readers").hasAuthority("READER")
 //                        .requestMatchers("/public/**").authenticated()
                         .anyRequest().denyAll()
                 )

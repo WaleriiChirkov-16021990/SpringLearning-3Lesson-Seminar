@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.gb.springdemo.config.SecurityConfig;
 import ru.gb.springdemo.model.Person;
@@ -15,7 +16,7 @@ import ru.gb.springdemo.repository.PersonRepository;
 
 import static ru.gb.springdemo.config.SecurityConfig.getPasswordEncoder;
 
-@Service
+@Component
 public class PersonDetailService implements UserDetailsService {
     private final PersonRepository repository;
 //    private final InMemoryUserDetailsManager userDetailsManager;

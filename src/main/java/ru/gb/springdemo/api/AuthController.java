@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gb.springdemo.model.Person;
-import ru.gb.springdemo.model.PersonDto;
+import ru.gb.springdemo.dto.PersonDto;
 import ru.gb.springdemo.service.PersonService;
 import ru.gb.springdemo.util.UserValidator;
 

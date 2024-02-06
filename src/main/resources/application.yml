@@ -18,7 +18,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
     defer-datasource-initialization: true
     #database: h2 #same as database-platform, it doesn't effect schema-{platform}.sql and data-{platform}.sql names
@@ -42,10 +42,31 @@ spring:
 
 logging:
   level:
-    #root: INFO
+    root: INFO
     #org.hibernate.SQL: TRACE
     #spring.sql: TRACE
     #javax.sql: TRACE
-#    org.h2.jdbc: TRACE
+    #    org.h2.jdbc: TRACE
     org.springframework.jdbc: TRACE
 debug: false
+
+
+#-secutity================================================================
+#spring:
+#  application:
+#    name: security-security
+#  datasource:
+#    url: jdbc:h2:mem:security-security
+#    driverClassName: org.h2.Driver
+#    username: root
+#    password: root
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#      show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+token:
+  signing:
+    key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855

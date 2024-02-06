@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springdemo.model.Issue;
 import ru.gb.springdemo.service.IssuerService;
@@ -21,11 +22,7 @@ public class IssuerController {
     @Autowired
     private IssuerService service;
 
-//  @PutMapping
-//  public void returnBook(long issueId) {
-//    // найти в репозитории выдачу и проставить ей returned_at
-//  }
-
+    @PreAuthorize("hasAuthority('ISSUE')")
     @GetMapping
     public List<Issue> getIssues() {
         return service.getIssueList();

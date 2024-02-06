@@ -5,10 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springdemo.model.Person;
-import ru.gb.springdemo.model.PersonDto;
+import ru.gb.springdemo.dto.PersonDto;
 import ru.gb.springdemo.service.PersonService;
 import ru.gb.springdemo.service.RoleService;
 

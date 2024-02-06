@@ -1,9 +1,10 @@
-package ru.gb.springdemo.model;
+package ru.gb.springdemo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import ru.gb.springdemo.model.Role;
 
 import java.io.Serializable;
 import java.util.UUID;

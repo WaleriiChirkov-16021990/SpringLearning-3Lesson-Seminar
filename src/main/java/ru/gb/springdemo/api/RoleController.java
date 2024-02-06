@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springdemo.model.Role;
-import ru.gb.springdemo.model.RoleDto;
+import ru.gb.springdemo.dto.RoleDto;
 import ru.gb.springdemo.service.RoleService;
 
 import java.util.List;

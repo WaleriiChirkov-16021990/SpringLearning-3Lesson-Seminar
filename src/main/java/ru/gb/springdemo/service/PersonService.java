@@ -1,6 +1,10 @@
 package ru.gb.springdemo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -85,6 +89,39 @@ public class PersonService {
     }
     public List<Person> findByRole(Role role) {
         return personRepository.findByRole(role).orElseThrow(NotFoundException::new);
+    }
+
+    /**
+     * Получение пользователя по имени пользователя
+     * <p>
+     * Нужен для Spring Security
+     *
+     * @return пользователь
+     */
+//    public UserDetailsService userDetailsService() {
+//        return this::getByUsername;
+//    }
+
+    /**
+     * Получение пользователя по имени пользователя
+     *
+     * @return пользователь
+     */
+    public Person getByUsername(String username) {
+        return personRepository.findByNameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+
+    }
+
+    /**
+     * Получение текущего пользователя
+     *
+     * @return текущий пользователь
+     */
+    public Person getCurrentUser() {
+        // Получение имени пользователя из контекста Spring Security
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getByUsername(username);
     }
 
 }

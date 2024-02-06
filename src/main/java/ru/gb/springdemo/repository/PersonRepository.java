@@ -31,6 +31,8 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
 
     boolean existsByNameIgnoreCase(String name);
 
+    Optional<Person> findByName(String name);
+
     @Transactional
     @Modifying
     @Query("delete from Person p where p.id = ?1")

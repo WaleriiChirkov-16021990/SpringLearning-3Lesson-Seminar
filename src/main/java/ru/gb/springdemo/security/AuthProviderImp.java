@@ -1,6 +1,7 @@
 package ru.gb.springdemo.security;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,13 +45,13 @@ public class AuthProviderImp implements AuthenticationProvider {
      * @return
      * @throws AuthenticationException
      */
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//    @Override
+    public Authentication authenticate(@NotNull Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         UserDetails personDetails = personDetailsService.loadUserByUsername(username);
         Person person = personService.findByName(username);
         String password = authentication.getCredentials().toString();
-        log.info(personDetails.getPassword());
+        log.info("Password user : {}",personDetails.getPassword());
         if (!password.equals(personDetails.getPassword())) {
             throw new BadCredentialsException("incorrect password");
         }
@@ -71,7 +72,7 @@ public class AuthProviderImp implements AuthenticationProvider {
     }
 
     @Autowired
-    public void configureAuthManagerBuilder(AuthenticationManagerBuilder builder, PersonDetailService personDetailService) throws Exception {
+    public void configureAuthManagerBuilder(@NotNull AuthenticationManagerBuilder builder, PersonDetailService personDetailService) throws Exception {
         builder.userDetailsService(personDetailService)
                 .passwordEncoder(SecurityConfig.getPasswordEncoder());
     }
