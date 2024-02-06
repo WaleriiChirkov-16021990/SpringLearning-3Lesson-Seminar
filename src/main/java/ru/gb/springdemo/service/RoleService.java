@@ -1,9 +1,11 @@
 package ru.gb.springdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.Role;
 import ru.gb.springdemo.repository.RoleRepository;
 import ru.gb.springdemo.util.BadRequestException;
@@ -13,8 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true,
-        propagation = Propagation.MANDATORY,
+        propagation = Propagation.NOT_SUPPORTED,
         rollbackFor = BadRequestException.class)
 public class RoleService {
     private final RoleRepository roleRepository;
@@ -62,5 +65,10 @@ public class RoleService {
 
     public Role findByName(String name) {
         return roleRepository.findByNameIgnoreCase(name).orElseThrow(NotFoundException::new);
+    }
+
+    public List<Role> findByPersonsOrderByPersons_IdAsc(Person person) {
+        log.info(person.toString());
+        return roleRepository.findByPersonsOrderByPersons_IdAsc(person, null);
     }
 }

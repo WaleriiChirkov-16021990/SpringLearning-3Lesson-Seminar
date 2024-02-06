@@ -56,6 +56,7 @@ public class AuthProviderImp implements AuthenticationProvider {
         }
         List<PersonsRoles> roles = personRoleService.findByPersonId(person);
         List<SimpleGrantedAuthority> authorities = roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleId().getName())).toList();
+        log.info(authorities.toString());
 
         return new UsernamePasswordAuthenticationToken(personDetails, password, authorities);
     }

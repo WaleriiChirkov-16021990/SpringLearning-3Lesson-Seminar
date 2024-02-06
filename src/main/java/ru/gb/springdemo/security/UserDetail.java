@@ -9,10 +9,13 @@ import ru.gb.springdemo.service.PersonRoleService;
 import ru.gb.springdemo.service.RoleService;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class UserDetail implements UserDetails {
     private final Person user;
+//    private final PersonRoleService personRoleService;
 
     public UserDetail(Person user) {
         this.user = user;
@@ -23,7 +26,7 @@ public class UserDetail implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRole().stream().map(r -> new SimpleGrantedAuthority(r.getName())).toList();
+        return user.getRole().stream().map(r -> new SimpleGrantedAuthority((r.getName()))).collect(Collectors.toList());
     }
 
     /**

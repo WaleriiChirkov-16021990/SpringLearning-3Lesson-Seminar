@@ -1,5 +1,6 @@
 package ru.gb.springdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Role {
     @Column(name = "name", length = 255, nullable = false)
     private String name;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "role")
     private List<Person> persons;
 }

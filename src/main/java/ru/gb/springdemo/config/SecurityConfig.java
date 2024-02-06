@@ -93,35 +93,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
         return http
-            .csrf(AbstractHttpConfigurer::disable)
+//            .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/**", "/auth/**").permitAll()
-                        .requestMatchers("/issues/**").hasAuthority("ISSUE")
-                        .requestMatchers("/books/**").hasAuthority("BOOK")
-                        .requestMatchers("/readers/**").hasAuthority("READER")
-                        .anyRequest()
-                        .authenticated()
+                        .requestMatchers( "/auth/**", "/api/**").permitAll()
+                        .requestMatchers("/issues/**").hasAnyAuthority("ISSUE")
+                        .requestMatchers("/books/**").hasAnyAuthority("BOOK")
+                        .requestMatchers("/readers/**").hasAnyAuthority("READER")
+//                        .requestMatchers("/public/**").authenticated()
+                        .anyRequest().denyAll()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(formLogin -> formLogin.loginPage("/auth/login")
+                .formLogin(formLogin -> formLogin.loginPage("/api/auth/login")
                         .loginProcessingUrl("/perform_login")
                         .defaultSuccessUrl("/homepage.html", true)
                         .failureUrl("/login.html?error=true")
-                        .failureHandler(authenticationFailureHandler())
                 )
                 .logout(logout -> logout
                         .logoutUrl("/perform_logout")
-                        .logoutSuccessHandler(logoutSuccessHandler())
                 )
                 .build();
-    }
-
-    private AuthenticationFailureHandler authenticationFailureHandler() {
-        return null;
-    }
-
-    private LogoutSuccessHandler logoutSuccessHandler() {
-        return null;
     }
 
 

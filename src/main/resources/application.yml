@@ -46,6 +46,6 @@ logging:
     #org.hibernate.SQL: TRACE
     #spring.sql: TRACE
     #javax.sql: TRACE
-    #org.h2.jdbc: TRACE
+#    org.h2.jdbc: TRACE
     org.springframework.jdbc: TRACE
 debug: false

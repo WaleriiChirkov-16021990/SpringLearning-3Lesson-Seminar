@@ -71,25 +71,41 @@ public class Application {
 //        SpringApplication.run(Application.class, args);
         ApplicationContext application = SpringApplication.run(Application.class, args);
 
-        PersonRepository repository = application.getBean(PersonRepository.class);
         RoleRepository role = application.getBean(RoleRepository.class);
         PersonService personService = application.getBean(PersonService.class);
 
-        Role admin = new Role();
-        admin.setName("admin");
-        admin.setUuid(UUID.randomUUID());
-        role.save(admin);
-        Role user = new Role();
-        user.setUuid(UUID.randomUUID());
-        user.setName("user");
-        role.save(user);
+        Role issue = new Role();
+        issue.setName("ISSUE");
+        issue.setUuid(UUID.randomUUID());
+        role.save(issue);
+        Role book = new Role();
+        book.setUuid(UUID.randomUUID());
+        book.setName("BOOK");
+        role.save(book);
 
-        Person person = new Person();
-        person.setName("John");
-        person.setPassword("password");
-        person.setRole(List.of(admin));
-        personService.savePerson(person);
-        repository.flush();
+        Role reade = new Role();
+        reade.setUuid(UUID.randomUUID());
+        reade.setName("READER");
+        role.save(reade);
+
+        Person issuer = new Person();
+        issuer.setName("Issuer");
+        issuer.setPassword("issuer");
+        issuer.setRole(List.of(issue));
+        personService.savePerson(issuer);
+
+        Person reader = new Person();
+        reader.setName("Reader");
+        reader.setPassword("reader");
+        reader.setRole(List.of(reade));
+        personService.savePerson(reader);
+
+        Person booker = new Person();
+        booker.setName("Booker");
+        booker.setPassword("booker");
+        booker.setRole(List.of(book));
+        personService.savePerson(booker);
+
     }
 
     @Bean

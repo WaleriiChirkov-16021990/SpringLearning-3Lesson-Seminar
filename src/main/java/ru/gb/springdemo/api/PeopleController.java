@@ -30,10 +30,21 @@ public class PeopleController {
         this.roleService = roleService;
     }
 
+    private Person convertToPerson(PersonDto personDto) {
+        Person person = mapper.map(personDto, Person.class);
+        person.setRole(roleService.findByPersonsOrderByPersons_IdAsc(person));
+        return person;
+    }
+
+    private PersonDto convertToPersonDto(Person person) {
+        PersonDto personDto = mapper.map(person, PersonDto.class);
+        personDto.setRole(roleService.findByPersonsOrderByPersons_IdAsc(person));
+        return personDto;
+    }
+
     @GetMapping
     public ResponseEntity<List<PersonDto>> findAll() {
-        return new ResponseEntity<>(personService.findAll().stream().map((element) ->
-                mapper.map(element, PersonDto.class)).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(personService.findAll().stream().map(this::convertToPersonDto).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
