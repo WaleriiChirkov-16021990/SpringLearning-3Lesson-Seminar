@@ -44,7 +44,7 @@ public class TemplateController {
         return "readerTemplate";
     }
 
-    @GetMapping("/reader/{id}")
+    @GetMapping("/readers/{id}")
     public String getIssueByReaderId(@PathVariable("id") long id, Model model) {
         Reader reader = readerService.getReaderById(id);
         model.addAttribute("reader", reader);
