@@ -1,5 +1,7 @@
 package ru.gb.springdemo.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Getter
 public class UserDetail implements UserDetails {
     private final Person user;
 //    private final PersonRoleService personRoleService;
@@ -26,6 +28,7 @@ public class UserDetail implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return user.getRole().stream().map(r -> new SimpleGrantedAuthority((r.getName()))).collect(Collectors.toList());
     }
 

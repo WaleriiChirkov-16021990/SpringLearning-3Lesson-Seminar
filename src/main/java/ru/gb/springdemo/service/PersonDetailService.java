@@ -1,35 +1,36 @@
 package ru.gb.springdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.gb.springdemo.config.SecurityConfig;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.security.UserDetail;
-import ru.gb.springdemo.repository.PersonRepository;
-
-import static ru.gb.springdemo.config.SecurityConfig.getPasswordEncoder;
 
 @Service
+@Slf4j
 public class PersonDetailService implements UserDetailsService {
-    private final PersonRepository repository;
-//    private final InMemoryUserDetailsManager userDetailsManager;
+    private final PersonService personService;
 
     @Autowired
-    public PersonDetailService(PersonRepository repository) {
-        this.repository = repository;
-//        this.userDetailsManager = userDetailsManager;
+    public PersonDetailService(PersonService personService) {
+        this.personService = personService;
     }
+
+//    private final RoleService roleService;
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        Person user = userDetailsService().userExists(username) ? (Person) userDetailsService().loadUserByUsername(username) : repository.findByNameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        Person user = repository.findByNameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Person user = personService.findPersonByName(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        user.setRole(personService.getRoleByPerson(user));
+//        return new UserDetail(user);
+        log.info("User details loaded: {}", user);
+        log.info("User  roles: {}", user.getRole().get(0).getName());
         return new UserDetail(user);
     }
 

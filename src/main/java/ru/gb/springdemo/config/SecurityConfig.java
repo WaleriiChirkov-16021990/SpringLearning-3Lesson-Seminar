@@ -1,39 +1,35 @@
 package ru.gb.springdemo.config;
 
-import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import ru.gb.springdemo.service.PersonDetailService;
 
-import java.util.Objects;
+import javax.sql.DataSource;
 
 //@Configuration
 @EnableWebSecurity
+@Configuration
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-//    private final PersonDetailService personDetailService;
+    public final PasswordEncoder passwordEncoder;
+    private final PersonDetailService personDetailService;
+
+    @Autowired
+    public SecurityConfig(PasswordEncoder passwordEncoder, PersonDetailService personDetailService) {
+        this.passwordEncoder = passwordEncoder;
+        this.personDetailService = personDetailService;
+    }
 
 //    @Autowired
 //    public SecurityConfig(PersonDetailService personDetailService) {
@@ -63,7 +59,6 @@ public class SecurityConfig {
 //
 
 
-
     //    @Bean
 //    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 //        return httpSecurity
@@ -90,25 +85,33 @@ public class SecurityConfig {
 //                        .logoutSuccessUrl("/auth/login"))
 //                .build();
 //    }
+
+    //    @Bean
+    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
     @Bean
-    public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-//            .csrf(AbstractHttpConfigurer::disable)
+//                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers( "/auth/**", "/api/**").permitAll()
-                        .requestMatchers("/issues/**").hasAnyAuthority("ISSUE")
-                        .requestMatchers("/books/**").hasAnyAuthority("BOOK")
-                        .requestMatchers("/readers/**").hasAnyAuthority("READER")
-//                        .requestMatchers("/public/**").authenticated()
-                        .anyRequest().denyAll()
+//                        .requestMatchers("/auth/**", "/api/**").permitAll()
+                                .requestMatchers("/ui/issues/**").hasAuthority("ISSUE")
+                                .requestMatchers("/ui/books/**").hasAuthority("BOOK")
+                                .requestMatchers("/ui/readers/**").hasAuthority("READER")
+                                .anyRequest().permitAll()
+//                        .requestMatchers("/api/people","/api/roles").authenticated()
+//                        .anyRequest().denyAll()
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/api/auth/login")
-                        .loginProcessingUrl("/perform_login")
-                        .defaultSuccessUrl("/homepage.html", true)
+                        .loginProcessingUrl("/process_login")
+                        .defaultSuccessUrl("/api/people", true)
                         .failureUrl("/login.html?error=true")
                 )
+                .userDetailsService(personDetailService)
                 .logout(logout -> logout
-                        .logoutUrl("/perform_logout")
+                        .logoutUrl("/logout")
                 )
                 .build();
     }

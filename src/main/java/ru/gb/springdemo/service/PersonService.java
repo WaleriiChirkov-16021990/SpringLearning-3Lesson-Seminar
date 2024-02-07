@@ -1,12 +1,12 @@
 package ru.gb.springdemo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gb.springdemo.config.SecurityConfig;
 import ru.gb.springdemo.model.Person;
+import ru.gb.springdemo.model.PersonsRoles;
 import ru.gb.springdemo.model.Role;
 import ru.gb.springdemo.repository.PersonRepository;
 import ru.gb.springdemo.util.BadRequestException;
@@ -22,10 +22,14 @@ import java.util.UUID;
         rollbackFor = BadRequestException.class)
 public class PersonService {
     private final PersonRepository personRepository;
+    private final PersonRoleService personRoleService;
+    private final RoleService roleService;
 
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, PersonRoleService personRoleService, RoleService roleService) {
         this.personRepository = personRepository;
+        this.personRoleService = personRoleService;
+        this.roleService = roleService;
     }
 
     @Transactional
@@ -81,10 +85,18 @@ public class PersonService {
     }
 
     public Optional<Person> findPersonByName(String name) throws NotFoundException {
-        return personRepository.findByNameIgnoreCase(name);
+        Person person = personRepository.findByNameIgnoreCase(name).orElseThrow(NotFoundException::new);
+        person.setRole(this.getRoleByPerson(person));
+        return Optional.of(person);
     }
+
     public List<Person> findByRole(Role role) {
         return personRepository.findByRole(role).orElseThrow(NotFoundException::new);
+    }
+
+    public List<Role> getRoleByPerson(Person person) throws NotFoundException {
+        List<PersonsRoles> byPersonId = personRoleService.findByPersonId(person);
+        return byPersonId.stream().map(role -> roleService.findById(role.getRoleId().getUuid())).toList();
     }
 
 }

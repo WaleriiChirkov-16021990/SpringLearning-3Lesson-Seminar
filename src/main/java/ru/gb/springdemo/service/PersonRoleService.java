@@ -1,5 +1,6 @@
 package ru.gb.springdemo.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,14 +19,11 @@ import java.util.UUID;
 @Transactional(readOnly = true,
         propagation = Propagation.REQUIRES_NEW,
         rollbackFor = BadRequestException.class)
+@RequiredArgsConstructor
+
 public class PersonRoleService {
-    private final PersonsRolesRepository personsRolesRepository;
-
     @Autowired
-    public PersonRoleService(PersonsRolesRepository personsRolesRepository) {
-        this.personsRolesRepository = personsRolesRepository;
-    }
-
+    private final PersonsRolesRepository personsRolesRepository;
 
     @Transactional
     public void savePersonRole(PersonsRoles personsRoles) throws BadRequestException {

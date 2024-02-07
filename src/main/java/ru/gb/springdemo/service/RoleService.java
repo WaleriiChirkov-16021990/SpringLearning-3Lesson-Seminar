@@ -1,5 +1,6 @@
 package ru.gb.springdemo.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,13 @@ import java.util.UUID;
 @Service
 @Slf4j
 @Transactional(readOnly = true,
-        propagation = Propagation.NOT_SUPPORTED,
+//        propagation = Propagation.REQUIRES_NEW,
         rollbackFor = BadRequestException.class)
+@AllArgsConstructor
 public class RoleService {
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public RoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+    private final RoleRepository roleRepository;
 
     @Transactional
     public void saveRole(Role role) throws BadRequestException {
