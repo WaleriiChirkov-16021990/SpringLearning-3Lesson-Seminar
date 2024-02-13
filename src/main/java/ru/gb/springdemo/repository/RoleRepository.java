@@ -15,6 +15,6 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
 
     Optional<Role> findByNameIgnoreCase(String name);
 
-    List<Role> findByPersonsOrderByPersons_IdAsc(Person person, Pageable pageable);
+    List<Role> findRoleByPersonsIsNotNull(Person person, Pageable pageable);
 
 }

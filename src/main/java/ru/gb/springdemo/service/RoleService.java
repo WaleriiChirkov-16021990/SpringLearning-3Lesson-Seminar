@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.Role;
@@ -68,6 +67,6 @@ public class RoleService {
 
     public List<Role> findByPersonsOrderByPersons_IdAsc(Person person) {
         log.info(person.toString());
-        return roleRepository.findByPersonsOrderByPersons_IdAsc(person, null);
+        return roleRepository.findRoleByPersonsIsNotNull(person, null);
     }
 }

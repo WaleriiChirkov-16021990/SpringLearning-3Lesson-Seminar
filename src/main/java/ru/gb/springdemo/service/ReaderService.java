@@ -13,7 +13,6 @@ import java.util.List;
 public class ReaderService {
 
     // спринг это все заинжектит
-    @Autowired
     private final ReaderRepository readerRepository;
 
     public Reader save(Reader reader) {

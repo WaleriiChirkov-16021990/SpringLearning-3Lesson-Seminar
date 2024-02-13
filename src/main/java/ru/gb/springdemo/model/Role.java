@@ -29,4 +29,11 @@ public class Role {
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany(mappedBy = "role")
     private List<Person> persons;
+
+    public Role(String user) {
+
+    }
+
+    public Role() {
+    }
 }

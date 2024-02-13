@@ -66,7 +66,7 @@ public class ReaderController {
   }
 
   @GetMapping
-//  @PreAuthorize("hasAuthority('READER')")
+  @PreAuthorize("hasAuthority('READER')")
   public ResponseEntity<List<Reader>> getReaderList(){
     return new ResponseEntity<>(service.getReaders(), HttpStatus.OK);
   }
