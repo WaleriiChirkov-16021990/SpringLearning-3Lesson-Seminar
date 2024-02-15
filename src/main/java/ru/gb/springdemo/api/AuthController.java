@@ -1,8 +1,8 @@
 package ru.gb.springdemo.api;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +16,12 @@ import ru.gb.springdemo.util.UserValidator;
 
 @Controller
 @RequestMapping("/api/auth")
+@AllArgsConstructor
 public class AuthController {
 
     private final PersonService personService;
     private final UserValidator userValidator;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public AuthController(PersonService personService, UserValidator userValidator, ModelMapper modelMapper) {
-        this.personService = personService;
-        this.userValidator = userValidator;
-        this.modelMapper = modelMapper;
-    }
-
 
     @GetMapping("/login")
     public String login() {
@@ -44,6 +37,7 @@ public class AuthController {
     public String registrationPage(@ModelAttribute("person") PersonDto person) {
         return "auth/registry";
     }
+
     @PostMapping("/registration")
     public String register(@ModelAttribute("person") @Valid PersonDto personDto, BindingResult bindingResult) {
         userValidator.validate(personDto, bindingResult);

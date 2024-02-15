@@ -1,9 +1,7 @@
 package ru.gb.springdemo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -22,6 +20,8 @@ import static org.hibernate.annotations.CascadeType.ALL;
         @NamedQuery(name = "Person.deleteById", query = "delete from Person p where p.id = :id"),
         @NamedQuery(name = "Person.updateNameById", query = "update Person p set p.name = :name where p.id = :id")
 })
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
 
     @Id
@@ -43,4 +43,9 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> role;
 
+    public Person(UUID uuid, String john, String password) {
+        this.id = uuid;
+        this.name = john;
+        this.password = password;
+    }
 }

@@ -24,6 +24,7 @@ public class BookService {
   public Book save(Book book) {
     bookRepository.saveBook(book);
     return book;
+
   }
 
   public Book getBookById(long id) {

@@ -36,4 +36,9 @@ public class Role {
 
     public Role() {
     }
+
+    public Role(UUID uuid, String admin) {
+        this.uuid = uuid;
+        this.name = admin;
+    }
 }

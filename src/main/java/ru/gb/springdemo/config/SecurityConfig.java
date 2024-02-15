@@ -94,12 +94,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-//                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
 //                        .requestMatchers("/auth/**", "/api/**").permitAll()
-                                .requestMatchers("/ui/issues/**").hasAuthority("ISSUE")
-                                .requestMatchers("/ui/books/**").hasAuthority("BOOK")
-                                .requestMatchers("/ui/readers/**").hasAuthority("READER")
+//                                .requestMatchers("/ui/issues/**").hasAuthority("ISSUE")
+//                                .requestMatchers("/ui/books/**").hasAuthority("BOOK")
+//                                .requestMatchers("/ui/readers/**").hasAuthority("READER")
                                 .anyRequest().permitAll()
 //                        .requestMatchers("/api/people","/api/roles").authenticated()
 //                        .anyRequest().denyAll()
