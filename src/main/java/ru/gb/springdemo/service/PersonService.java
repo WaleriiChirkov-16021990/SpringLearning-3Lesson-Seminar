@@ -33,15 +33,15 @@ public class PersonService {
     }
 
     @Transactional
-    public Person savePerson(Person person) throws BadRequestException {
+    public Person save(Person person) throws BadRequestException {
         try {
             enrichPerson(person);
-            personRepository.save(person);
+            return personRepository.save(person);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage(), e);
         }
 
-        return person;
+
     }
 
     private void enrichPerson(Person person) {
@@ -99,4 +99,8 @@ public class PersonService {
         return byPersonId.stream().map(role -> roleService.findById(role.getRoleId().getUuid())).toList();
     }
 
+    @jakarta.transaction.Transactional
+    public void deleteAll() {
+        personRepository.deleteAll();
+    }
 }

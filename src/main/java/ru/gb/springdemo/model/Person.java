@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +30,6 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-
     @Column(nullable = false, name = "name", unique = true)
     private String name;
 
@@ -45,5 +42,4 @@ public class Person {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> role;
-
 }

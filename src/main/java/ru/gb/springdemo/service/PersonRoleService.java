@@ -72,4 +72,9 @@ public class PersonRoleService {
     public List<PersonsRoles> findByRoleId(Role roleId) throws NotFoundException {
         return personsRolesRepository.findAllByRoleId(roleId).orElseThrow(NotFoundException::new);
     }
+
+    @jakarta.transaction.Transactional
+    public void deleteAll() {
+        personsRolesRepository.deleteAll();
+    }
 }

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.Role;
@@ -23,13 +22,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RoleService {
 
-    @Autowired
     private final RoleRepository roleRepository;
 
     @Transactional
-    public void saveRole(Role role) throws BadRequestException {
+    public Role save(Role role) throws BadRequestException {
         try {
-            roleRepository.save(role);
+            return roleRepository.save(role);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage(), e);
         }
@@ -69,5 +67,10 @@ public class RoleService {
     public List<Role> findByPersonsOrderByPersons_IdAsc(Person person) {
         log.info(person.toString());
         return roleRepository.findByPersonsOrderByPersons_IdAsc(person, null);
+    }
+
+    @jakarta.transaction.Transactional
+    public void deleteAll() {
+        roleRepository.deleteAll();
     }
 }

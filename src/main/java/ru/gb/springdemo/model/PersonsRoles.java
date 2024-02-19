@@ -20,12 +20,12 @@ public class PersonsRoles {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     @JsonIdentityReference
     private Person personId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIdentityReference
     @JoinColumn(name = "role_id", referencedColumnName = "uuid")
     private Role roleId;

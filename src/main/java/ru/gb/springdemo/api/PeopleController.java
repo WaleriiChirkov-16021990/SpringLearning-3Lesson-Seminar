@@ -5,7 +5,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.PersonDto;
@@ -54,7 +53,7 @@ public class PeopleController {
 
     @PostMapping
     public ResponseEntity<PersonDto> savePerson(@RequestBody @Valid Person person) {
-        return new ResponseEntity<>(mapper.map(personService.savePerson(person), PersonDto.class), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.map(personService.save(person), PersonDto.class), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
