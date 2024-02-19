@@ -5,10 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.springdemo.model.Person;
-import ru.gb.springdemo.model.PersonsRoles;
-import ru.gb.springdemo.model.PersonsRolesDto;
-import ru.gb.springdemo.model.Role;
+import ru.gb.springdemo.model.*;
 import ru.gb.springdemo.service.PersonRoleService;
 import ru.gb.springdemo.service.PersonService;
 import ru.gb.springdemo.service.RoleService;
@@ -38,11 +35,25 @@ public class PersonRoleController {
     public List<PersonsRolesDto> findAll() {
         return personRoleService.findAll().stream().map((element) ->
                 mapper.map(element, PersonsRolesDto.class)).collect(Collectors.toList());
+//    return personRoleService.findAll();
     }
 
     @GetMapping(value = "/{id}")
     public PersonsRolesDto findById(@PathVariable("id") Long id) {
-        return mapper.map(personRoleService.findById(id), PersonsRolesDto.class);
+        PersonsRoles byId = personRoleService.findById(id);
+        PersonsRolesDto byIdDto = mapper.map(byId
+                , PersonsRolesDto.class);
+//        byIdDto.setPersonId(mapper.map(byId.getPersonId(), PersonDto.class));
+//        byIdDto.setRoleId(mapper.map(byId.getRoleId(), RoleDto.class));
+
+
+//        mapper.typeMap(PersonsRoles.class, PersonsRolesDto.class).addMappings(
+//
+////                m -> m.map(src -> src.getPersonId(), PersonsRolesDto::setPersonId),
+////                m -> m.map(src -> src.getRoleId(), PersonsRolesDto::setRoleId)
+//        );
+//        return mapper.map(personRoleService.findById(id), PersonsRolesDto.class);
+        return byIdDto;
     }
 
     @GetMapping("/by_person/{id}")

@@ -109,7 +109,7 @@ public class Application {
     }
 
     @Bean
-    public ModelMapper modelMapper() {
+    public static @NotNull ModelMapper modelMapper() {
         return new ModelMapper();
     }
 }

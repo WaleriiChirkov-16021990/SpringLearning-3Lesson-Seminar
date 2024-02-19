@@ -9,17 +9,23 @@ import java.io.Serializable;
 /**
  * DTO for {@link PersonsRoles}
  */
-@Value
+//@Value
 @Data
 @Getter
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor(force = true)
-@Setter
+//@Setter
 public class PersonsRolesDto implements Serializable {
+
+    @NotNull(message = "Not null id for PersonRole")
     Long id;
     @NotNull(message = "Not null person for Role")
-    PersonDto personId;
+    Person personId;
     @NotNull(message = "Not null role for Person")
-    RoleDto roleId;
+    Role roleId;
+
+//    public void setPersonId(PersonDto map) {
+//        this.personId = map;
+//    }
 }

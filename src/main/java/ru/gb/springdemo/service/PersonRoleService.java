@@ -1,7 +1,6 @@
 package ru.gb.springdemo.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,17 +12,17 @@ import ru.gb.springdemo.util.BadRequestException;
 import ru.gb.springdemo.util.NotFoundException;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Transactional(readOnly = true,
         propagation = Propagation.REQUIRES_NEW,
         rollbackFor = BadRequestException.class)
-@RequiredArgsConstructor
-
+@AllArgsConstructor
 public class PersonRoleService {
-    @Autowired
     private final PersonsRolesRepository personsRolesRepository;
+//    private final PersonService personService;
+//    private final RoleService roleService;
 
     @Transactional
     public void savePersonRole(PersonsRoles personsRoles) throws BadRequestException {
@@ -54,7 +53,12 @@ public class PersonRoleService {
     }
 
     public List<PersonsRoles> findAll() {
-        return personsRolesRepository.findAll().stream().toList();
+        AtomicReference<List<PersonsRoles>> list = new AtomicReference<>(personsRolesRepository.findAll());
+//        list.forEach((element) -> {
+//            element.setPersonId(personService.findOne(element.getPersonId().getId()));
+//            element.setRoleId(roleService.findById(element.getRoleId().getUuid()));
+//        });
+        return list.get();
     }
 
     public PersonsRoles findById(Long id) {

@@ -39,7 +39,7 @@ class BookControllerDiffblueTest {
         // Arrange
         Book book = new Book("Name");
         when(bookService.deleteBookById(anyLong())).thenReturn(book);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/books/{id}", 1L);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/books/{id}", 6L);
 
         // Act and Assert
         MockMvcBuilders.standaloneSetup(bookController)
