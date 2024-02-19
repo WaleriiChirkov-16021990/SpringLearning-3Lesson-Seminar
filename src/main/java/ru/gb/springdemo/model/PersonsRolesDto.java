@@ -2,7 +2,7 @@ package ru.gb.springdemo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -10,8 +10,15 @@ import java.io.Serializable;
  * DTO for {@link PersonsRoles}
  */
 @Value
+@Data
+@Getter
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor(force = true)
+@Setter
 public class PersonsRolesDto implements Serializable {
+    Long id;
+    @NotNull(message = "Not null person for Role")
     PersonDto personId;
     @NotNull(message = "Not null role for Person")
     RoleDto roleId;

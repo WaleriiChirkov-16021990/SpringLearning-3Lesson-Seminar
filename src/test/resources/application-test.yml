@@ -18,7 +18,7 @@ spring:
   jpa:
 #    generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
 #    defer-datasource-initialization: true
     #database: h2 #same as database-platform, it doesn't effect schema-{platform}.sql and data-{platform}.sql names
@@ -26,7 +26,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:test #ALWAYS, EMBEDDED or NEVER will be calculated from h2
     username: wch
-    password: password
+    password:
     driverClassName: org.h2.Driver
     #initialization-mode: always # deprecated, moved to under sql.init, DON'T USE
     #platform: h2 #deprecated, moved to under sql.init, , DON'T USE
@@ -48,4 +48,4 @@ spring:
     #javax.sql: TRACE
 #    org.h2.jdbc: TRACE
 #    org.springframework.jdbc: TRACE
-#debug: false
+#debug: true

@@ -1,7 +1,9 @@
 package ru.gb.springdemo.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
@@ -20,6 +22,8 @@ import java.util.UUID;
         @NamedQuery(name = "Person.deleteById", query = "delete from Person p where p.id = :id"),
         @NamedQuery(name = "Person.updateNameById", query = "update Person p set p.name = :name where p.id = :id")
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
     @Id
@@ -34,7 +38,6 @@ public class Person {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinTable(name = "persons_roles",
             joinColumns = @JoinColumn(name = "person_id"),
