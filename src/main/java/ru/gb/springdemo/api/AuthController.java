@@ -50,7 +50,7 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "auth/registry";
         }
-        personService.savePerson(modelMapper.map(personDto, Person.class));
+        personService.save(modelMapper.map(personDto, Person.class));
         return "auth/login";
     }
 }

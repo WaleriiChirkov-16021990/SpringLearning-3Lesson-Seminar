@@ -33,15 +33,15 @@ public class PersonService {
     }
 
     @Transactional
-    public Person savePerson(Person person) throws BadRequestException {
+    public Person save(Person person) throws BadRequestException {
         try {
             enrichPerson(person);
-            personRepository.save(person);
+            return personRepository.save(person);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage(), e);
         }
 
-        return person;
+
     }
 
     private void enrichPerson(Person person) {
@@ -90,8 +90,9 @@ public class PersonService {
         return Optional.of(person);
     }
 
-    public List<Person> findByRole(Role role) {
-        return personRepository.findByRole(role).orElseThrow(NotFoundException::new);
+    public List<Person> findByRole(UUID role) {
+        Role byId = roleService.findById(role);
+        return personRepository.findByRole(byId).orElseThrow(NotFoundException::new);
     }
 
     public List<Role> getRoleByPerson(Person person) throws NotFoundException {
@@ -99,4 +100,8 @@ public class PersonService {
         return byPersonId.stream().map(role -> roleService.findById(role.getRoleId().getUuid())).toList();
     }
 
+    @jakarta.transaction.Transactional
+    public void deleteAll() {
+        personRepository.deleteAll();
+    }
 }

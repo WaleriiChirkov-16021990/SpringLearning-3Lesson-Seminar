@@ -1,20 +1,20 @@
 package ru.gb.springdemo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.UUID;
-import static org.hibernate.annotations.CascadeType.ALL;
+@Accessors(chain = true)
 @Entity(name = "Person")
 @Getter
 @Setter
-@Table(name = "person")
+@Table(name = "Person")
 @NamedQueries({
         @NamedQuery(name = "Person.findDistinctById", query = "select distinct p from Person p where p.id = :id", lockMode = LockModeType.READ),
         @NamedQuery(name = "Person.findByNameIgnoreCaseOrderByNameAsc", query = "select p from Person p where upper(p.name) = upper(:name) order by p.name", lockMode = LockModeType.READ),
@@ -22,12 +22,13 @@ import static org.hibernate.annotations.CascadeType.ALL;
         @NamedQuery(name = "Person.deleteById", query = "delete from Person p where p.id = :id"),
         @NamedQuery(name = "Person.updateNameById", query = "update Person p set p.name = :name where p.id = :id")
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
 
     @Column(nullable = false, name = "name", unique = true)
     private String name;
@@ -36,11 +37,9 @@ public class Person {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-    @Cascade(ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinTable(name = "persons_roles",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> role;
-
 }

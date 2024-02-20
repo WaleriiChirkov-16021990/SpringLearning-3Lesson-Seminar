@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -96,12 +97,16 @@ public class SecurityConfig {
         return http
 //                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("/auth/**", "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/auth/**", "/api/**", "/api/people/**", "/api/roles/**", "/api/people_roles/*").permitAll()
                                 .requestMatchers("/ui/issues/**").hasAuthority("ISSUE")
                                 .requestMatchers("/ui/books/**").hasAuthority("BOOK")
                                 .requestMatchers("/ui/readers/**").hasAuthority("READER")
                                 .anyRequest().permitAll()
-//                        .requestMatchers("/api/people","/api/roles").authenticated()
+//                        .requestMatchers("/api/people", "/api/roles").authenticated()
 //                        .anyRequest().denyAll()
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/api/auth/login")
@@ -110,12 +115,10 @@ public class SecurityConfig {
                         .failureUrl("/login.html?error=true")
                 )
                 .userDetailsService(personDetailService)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                )
+                .logout(logout -> logout.logoutUrl("/logout"))
+                .httpBasic(httpBasic -> httpBasic.init(http))
                 .build();
     }
-
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {

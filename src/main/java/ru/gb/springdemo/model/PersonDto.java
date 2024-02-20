@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class PersonDto implements Serializable {
+    UUID id;
     String name;
     List<Role> role;
 

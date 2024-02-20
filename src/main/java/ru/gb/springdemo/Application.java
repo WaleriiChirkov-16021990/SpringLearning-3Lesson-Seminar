@@ -1,16 +1,13 @@
 package ru.gb.springdemo;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.Role;
-import ru.gb.springdemo.repository.PersonRepository;
 import ru.gb.springdemo.repository.RoleRepository;
 import ru.gb.springdemo.service.PersonService;
 
@@ -92,19 +89,19 @@ public class Application {
         issuer.setName("Issuer");
         issuer.setPassword("issuer");
         issuer.setRole(List.of(issue));
-        personService.savePerson(issuer);
+        personService.save(issuer);
 
         Person reader = new Person();
         reader.setName("Reader");
         reader.setPassword("reader");
         reader.setRole(List.of(reade));
-        personService.savePerson(reader);
+        personService.save(reader);
 
         Person booker = new Person();
         booker.setName("Booker");
         booker.setPassword("booker");
         booker.setRole(List.of(book));
-        personService.savePerson(booker);
+        personService.save(booker);
 
     }
 
