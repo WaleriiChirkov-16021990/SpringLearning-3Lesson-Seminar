@@ -90,8 +90,9 @@ public class PersonService {
         return Optional.of(person);
     }
 
-    public List<Person> findByRole(Role role) {
-        return personRepository.findByRole(role).orElseThrow(NotFoundException::new);
+    public List<Person> findByRole(UUID role) {
+        Role byId = roleService.findById(role);
+        return personRepository.findByRole(byId).orElseThrow(NotFoundException::new);
     }
 
     public List<Role> getRoleByPerson(Person person) throws NotFoundException {

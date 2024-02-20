@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {ReaderController.class})
 @ExtendWith(SpringExtension.class)
-class ReaderControllerDiffblueTest {
+class ReaderControllerTest {
     @Autowired
     private ReaderController readerController;
 
@@ -45,7 +45,7 @@ class ReaderControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(
-                        MockMvcResultMatchers.content().string("{\"id\":1,\"name\":\"Name\",\"bookList\":[],\"issueList\":[]}"));
+                        MockMvcResultMatchers.content().string("{\"id\":3,\"name\":\"Name\",\"bookList\":[],\"issueList\":[]}"));
     }
 
     /**

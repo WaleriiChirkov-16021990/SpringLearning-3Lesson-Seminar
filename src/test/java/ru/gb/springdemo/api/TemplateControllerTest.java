@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {TemplateController.class})
 @ExtendWith(SpringExtension.class)
-class TemplateControllerDiffblueTest {
+class TemplateControllerTest {
     @MockBean
     private BookService bookService;
 

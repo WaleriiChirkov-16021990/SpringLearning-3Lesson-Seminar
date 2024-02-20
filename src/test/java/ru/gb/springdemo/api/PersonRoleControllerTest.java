@@ -19,9 +19,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import ru.gb.springdemo.model.Person;
 import ru.gb.springdemo.model.PersonsRoles;
 import ru.gb.springdemo.model.Role;
-import ru.gb.springdemo.repository.PersonRepository;
 import ru.gb.springdemo.repository.PersonsRolesRepository;
-import ru.gb.springdemo.repository.RoleRepository;
 import ru.gb.springdemo.service.PersonRoleService;
 import ru.gb.springdemo.service.PersonService;
 import ru.gb.springdemo.service.RoleService;
@@ -111,7 +109,6 @@ class PersonRoleControllerTest {
         personsRolesService.deleteAll();
         roleService.deleteAll();
     }
-
     @Test
     public void testFindAll() {
 

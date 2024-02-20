@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,9 @@ import java.util.concurrent.Future;
 public interface PersonRepository extends JpaRepository<Person, UUID> {
 //public interface PersonRepository extends JpaRepository<Person, UUID>, JpaSpecificationExecutor<Person> {
 
-    Optional<List<Person>> findByRole(Role role);
+//    @Query("select p from Person p where p.role = :role")
+//@Query("select p from Person p where p.role = ?1")
+Optional<List<Person>> findByRole( Role role);
 
 //    @Async
 //    Future<List<Person>> findByRole(List<Role> role);

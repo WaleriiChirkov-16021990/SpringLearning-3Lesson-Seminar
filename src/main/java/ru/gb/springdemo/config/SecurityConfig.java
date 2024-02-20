@@ -98,9 +98,9 @@ public class SecurityConfig {
 //                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                                 .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                                 .requestMatchers("/auth/**", "/api/**", "/api/people/**", "/api/roles/**", "/api/people_roles/*").permitAll()
                                 .requestMatchers("/ui/issues/**").hasAuthority("ISSUE")
                                 .requestMatchers("/ui/books/**").hasAuthority("BOOK")
@@ -115,9 +115,8 @@ public class SecurityConfig {
                         .failureUrl("/login.html?error=true")
                 )
                 .userDetailsService(personDetailService)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                )
+                .logout(logout -> logout.logoutUrl("/logout"))
+                .httpBasic(httpBasic -> httpBasic.init(http))
                 .build();
     }
 

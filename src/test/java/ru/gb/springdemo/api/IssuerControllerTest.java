@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {IssuerController.class})
 @ExtendWith(SpringExtension.class)
-class IssuerControllerDiffblueTest {
+class IssuerControllerTest {
     @Autowired
     private IssuerController issuerController;
 
